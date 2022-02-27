@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ec_app/models/models.dart';
 import 'package:flutter_ec_app/widget/widget.dart';
 
+import '../../blocs/cart/cart_bloc.dart';
 import '../../blocs/wishlist/wishlist_bloc.dart';
 
 class ProductScreen extends StatelessWidget {
@@ -56,13 +57,21 @@ class ProductScreen extends StatelessWidget {
                   );
                 },
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Colors.white),
-                onPressed: () {},
-                child: Text(
-                  'ADD TO CART',
-                  style: Theme.of(context).textTheme.headline3!,
-                ),
+              BlocBuilder<CartBloc, CartState>(
+                builder: (context, state) {
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(primary: Colors.white),
+                    onPressed: () {
+                      context.read<CartBloc>().add(
+                            CartProductAdded(product),
+                          );
+                    },
+                    child: Text(
+                      'ADD TO CART',
+                      style: Theme.of(context).textTheme.headline3!,
+                    ),
+                  );
+                },
               )
             ],
           ),

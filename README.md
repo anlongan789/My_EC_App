@@ -1,6 +1,8 @@
 # flutter_ec_app
 
-A new Flutter project.
+Made by Max on Flutter
+This is just my BLoc Pattern practice
+checkout Max on Flutter website:https://maxonflutter.com
 
 ## Getting Started
 

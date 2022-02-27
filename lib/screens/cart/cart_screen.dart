@@ -12,7 +12,7 @@ class CartScreen extends StatelessWidget {
 
   static Route route() {
     return MaterialPageRoute(
-      builder: (_) => CartScreen(),
+      builder: (context) => CartScreen(),
       settings: RouteSettings(name: routeName),
     );
   }
@@ -45,7 +45,7 @@ class CartScreen extends StatelessWidget {
       body: BlocBuilder<CartBloc, CartState>(
         builder: (context, state) {
           if (state is CartLoading) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -61,7 +61,7 @@ class CartScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            Cart().freeDeliveryString,
+                            state.cart.freeDeliveryString,
                             style: Theme.of(context).textTheme.headline5,
                           ),
                           ElevatedButton(
@@ -89,10 +89,20 @@ class CartScreen extends StatelessWidget {
                       SizedBox(
                         height: 370,
                         child: ListView.builder(
-                          itemCount: state.cart.products.length,
+                          itemCount: state.cart
+                              .productQuantity(state.cart.products)
+                              .keys
+                              .length,
                           itemBuilder: (context, index) {
                             return CartProductCard(
-                              product: state.cart.products[index],
+                              product: state.cart
+                                  .productQuantity(state.cart.products)
+                                  .keys
+                                  .elementAt(index),
+                              quantity: state.cart
+                                  .productQuantity(state.cart.products)
+                                  .values
+                                  .elementAt(index),
                             );
                           },
                         ),
@@ -117,7 +127,7 @@ class CartScreen extends StatelessWidget {
                                   style: Theme.of(context).textTheme.headline5,
                                 ),
                                 Text(
-                                  "\$${Cart().subTotalString}",
+                                  "\$${state.cart.subTotalString}",
                                   style: Theme.of(context).textTheme.headline5,
                                 ),
                               ],
@@ -131,7 +141,7 @@ class CartScreen extends StatelessWidget {
                                   style: Theme.of(context).textTheme.headline5,
                                 ),
                                 Text(
-                                  "\$${Cart().deliveryFeeString}",
+                                  "\$${state.cart.deliveryFeeString}",
                                   style: Theme.of(context).textTheme.headline5,
                                 ),
                               ],
@@ -170,7 +180,7 @@ class CartScreen extends StatelessWidget {
                                         .copyWith(color: Colors.white),
                                   ),
                                   Text(
-                                    "\$${Cart().totalToString}",
+                                    "\$${state.cart.totalToString}",
                                     style: Theme.of(context)
                                         .textTheme
                                         .headline5!

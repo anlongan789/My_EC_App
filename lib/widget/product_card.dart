@@ -95,16 +95,20 @@ class ProductCard extends StatelessWidget {
                         return Expanded(
                           child: IconButton(
                             onPressed: () {
-                              context
-                                  .read<CartBloc>()
-                                  .add(CartProductAdded(product: product));
+                              context.read<CartBloc>().add(
+                                    CartProductAdded(product),
+                                  );
+                              final snackBar = SnackBar(
+                                  content: Text("Added to your cart!"));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
                             },
                             icon: const Icon(Icons.add_circle,
                                 color: Colors.white),
                           ),
                         );
                       } else {
-                        print("error");
+                        // print("error");
                         return Text("Something weird");
                       }
                     },
